@@ -1,0 +1,297 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{graphicx} 
+\usepackage{subfigure}
+
+
+
+%\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{Columbia University} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Machine Learning (Homework 1) \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Xiaowen Li (xl2519)} % Your name
+
+%\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{Problem 1 (Maximum Likelihood)}
+
+\textbf{Part 1} \\
+
+(a) $ p(x_1,...x_N|\pi) = \prod_{i=1}^{N}p(x_i=1|\pi)^{x_i}(1-p(x_i=1|\pi))^{1-x_i} =  \prod_{i=1}^{N} \pi^{x_i}(1-\pi)^{1-x_i}$ \\
+
+(b) $ \hat{\pi}_{ML} = \arg\max_{\pi} p(x_1,...,x_N|\pi) =  \arg\max_{\pi} \prod_{i=1}^{N}\pi^{x_i}(1-\pi)^{1-x_i} $\\
+Then take log: $ \ln p(x_1,...,x_N|\pi)  = \ln \prod_{i=1}^{N}\pi^{x_i}(1-\pi)^{1-x_i} = \sum_{i=1}^{N}\ln(\pi^{x_i}(1-\pi)^{x_i}) = \sum_{i=1}^{N}x_i\ln\pi + \sum_{i=1}^{N}(1-x_i)\ln(1-\pi)$ \\
+so $ \hat{\pi}_{ML} = \arg\max_{\pi} \ln p(x_1,...,x_N|\pi) = \arg\max_{\pi} \sum_{i=1}^{N}x_i\ln\pi + \sum_{i=1}^{N}(1-x_i)\ln(1-\pi) $ \\
+The analytic criterion for this maximum likelihood estimator is: $ \nabla_\pi (\sum_{i=1}^{N}x_i\ln\pi + \sum_{i=1}^{N}(1-x_i)\ln(1-\pi)) = 0 $  \\
+Then we got $ \hat{\pi}_{ML} = \frac{\sum_{i=1}^{N}x_i}{N} $ \\
+     
+(c) As the sequense is i.i.d, $ p(x_1,...,x_N|\pi) $ is the product of the marginals. It makes intuitive sense to estimate $ \pi $ by no matter what value give greatest likelihood to the observed data. \\
+The analytic criterion for the maximum likelihood estimator is $ \nabla_\pi(\prod_{i=1}^{N}p(x_i=1|\pi)) = 0 $. It's too difficult to calculate the equation. According to the fact that $ \ln(\prod_i f_i) = \sum_i(f_i) $, we take the logarithm. Taking the logarithm does not change the location of a maximum or minimum. That is, $ \arg\max_x \ln(f(x)) = \arg\max_x f(x) $ (log-likelihood). \\
+
+
+%\lipsum[2] % Dummy text
+%------------------------------------------------
+
+\textbf{Part 2} \\
+
+(a) $ p(x_i=k_i|\lambda) = \frac{e^{-\lambda}\lambda^{k_i}}{k_i!} $, then joint likelihood of data $ (x_1,...x_N) $ is $ p(x_1,...x_N|\lambda) = \prod_{i=1}^{N} p(x_i|\lambda) = \prod_{i=1}^{N} \frac{e^{-\lambda}\lambda^{k_i}}{k_i!}$ \\
+
+(b) Take the log-likelihood: $ \ln p(x_1,...x_N|\lambda) = \ln \prod_{i=1}^{N} \frac{e^{-\lambda}\lambda^{k_i}}{k_i!} = \sum_{i=1}^{N}\ln \frac{e^{-\lambda}\lambda^{k_i}}{k_i!} = -N\lambda+\sum_{i=1}^{N}k_i \ln\lambda - \sum_{i=1}^{N}(k_i!)$ \\
+Then $ \hat{\lambda}_{ML} = \arg\max_{\lambda} p(x_1,...x_N|\lambda) =  \arg\max_{\lambda} \ln p(x_1,...x_N|\lambda) = \arg\max_{\lambda}  -N\lambda+\sum_{i=1}^{N}k_i \ln\lambda - \sum_{i=1}^{N}(k_i!)$ \\
+The analytic criterion for this maximum likelihood estimator is: $ \nabla_\lambda (-N\lambda+\sum_{i=1}^{N}k_i \ln\lambda - \sum_{i=1}^{N}(k_i!)) = 0 $ \\
+Then we got $ \hat{\lambda}_{ML} = \frac{\sum_{i=1}^{N}k_i}{N} $ \\
+
+(c) The sequence is i.i.d, so $ p(x_1,...x_N|\lambda) $ is the product of the marginals. We try to find the location of the maximum likelihood and taking that logarithm won't change the maximum location. Then we are able to estimate the $\lambda$. \\
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 2
+%----------------------------------------------------------------------------------------
+
+\section{Problem 2 (Bayes Rules)}
+
+(a) For Gamma distribution: 
+
+\begin{align*}
+Gam(\lambda|a,b) & = \frac{b^a}{\Gamma(a)}\lambda^{a-1}e^{-b\lambda} \\
+& \propto \lambda^{a-1}e^{-b\lambda} 
+\end{align*}	
+
+According to Bayes Rule, Poisson likelihood and Gamma prior: 
+\begin{align*}
+posterior & \propto p(x_1,...,x_N|\lambda)*Gam(\lambda|a,b) \\
+& \propto (\prod_{i=1}^{N} \frac{e^{-\lambda}\lambda^{k_i}}{k_i!})\lambda^{a-1}e^{-b\lambda} \\
+& \propto e^{-N\lambda}\lambda^{\sum_{i=1}^{N}k_1}\lambda^{a-1}e^{-b\lambda} \\
+& \propto \lambda^{a-1+\sum_{i=1}^{N}k_i}e^{-(N+b)\lambda}
+\end{align*}
+
+It's a form of Gamma distribution, where $ a^* = a+\sum_{i=1}^{N}k_i , b^* = N+b$ . In other words,
+\begin{align*}
+posterior &= \frac{(N+b)^{a+\sum_{i=1}^{N}k_i}}{\Gamma(a+\sum_{i=1}^{N}k_i)}\lambda^{a+\sum_{i=1}^{N}k_i-1}e^{-(N+b)\lambda} \\
+&= Gam(\lambda|a+\sum_{i=1}^{N}k_i, N+b) \\
+\end{align*}
+
+(b) The mean of Gamma distribution is $ E(\lambda|a,b) =  \int_{0}^{\infty}\lambda Gam(\lambda|a,b)d\lambda = \frac{a}{b}$. Then the mean of $ \lambda $ under $ Gam(\lambda|a+\sum_{i=1}^{N}k_i, N+b) $ is:
+\begin{align*}
+ \frac{a^*}{b^*} = \frac{a+\sum_{i=1}^{N}k_i}{N+b} 
+\end{align*}
+
+In Part 2 of Problem 1, we got $ \hat{\lambda}_{ML} = \frac{\sum_{i=1}^{N}k_i}{N} $. Then posterior mean:
+\begin{align*}
+ \frac{a^*}{b^*} = \frac{a+N\hat{\lambda}_{ML}}{N+b} \\
+\end{align*}
+
+The variance of Gamma distribution is $ Var[\lambda|a,b] = \frac{a}{b^2} $. Then the variance of $ \lambda $ under $ Gam(\lambda|a+\sum_{i=1}^{N}k_i, N+b) $ is:
+\begin{align*}
+\frac{a^*}{{b^*}^2} &= \frac{a+\sum_{i=1}^{N}k_i}{(N+b)^2} \\
+&= \frac{a+N\hat{\lambda}_{ML}}{(N+b)^2} \\
+\end{align*}
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 3
+%----------------------------------------------------------------------------------------
+
+\section{Problem 3 (Linear Regression)}
+
+\textbf{Part 1} \\
+
+(a) The vector $ \hat{\omega}_{ML} $ obtained is shown at the following table:\\
+
+\begin{tabular}{cc}
+\hline
+Dimension & $ \omega_i $ \\
+\hline
+Intercept Term & 23.39854883 \\
+Number of Cylinders & -0.44160803 \\
+Displacement & 0.83469498 \\
+Horsepower & -0.13573529 \\
+Weight & -5.79309564 \\
+Acceleration & 0.23762676 \\
+Model Year & 2.84396487  \\
+\hline
+\end{tabular}
+
+~~\\
+As can be seen from the table, the intercept is 23.39. What's more, the dimension of displacement, accleration and model year are 0.83, 0.23 and 2.84 (positive correlation). Number of cylinders, horsepower and weight are -0.44, -0.14, -5.79 (negative correlation). Model year is most positive related. That means model year plays an important role in improving the use of energy when it's increasing. Weight is most negative related. That means increase in weight will decrease the distance a car can reach per gallon. \\
+
+(b) Using the least square solution obtained from (a), we can predict y of the testing samples. Run the process 1000 times we can calculate the mean is 2.66506122704, standard deviation is 0.502579228405.\\
+
+\textbf{Part 2} \\
+
+(a) \\
+\begin{tabular}{ccc}
+	\hline
+	p & mean & standard deviation \\
+	\hline
+	1 & 3.44813858222 & 0.690673555928 \\
+	2 & 2.78897202627 & 0.643972914759 \\
+	3 & 2.97998219959 & 0.583804630511 \\
+	4 & 3.11834110521 & 0.674429110807 \\
+	\hline
+\end{tabular}
+
+~~\\
+From the table, p=3 seems the best. Cause it brings the lowest variance ( or say the lowest standard deviation). \\
+
+(b) \\
+
+\begin{figure}[ht!]
+	\begin{minipage}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[width=2.2in]{p1.png}
+		\caption{p = 1}
+		\label{fig:side:a}
+	\end{minipage}
+	\begin{minipage}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[width=2.2in]{p3.png}
+		\caption{p = 2}
+		\label{fig:side:b}
+	\end{minipage}
+\end{figure}
+
+\begin{figure}[ht!]
+	\begin{minipage}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[width=2.2in]{p2.png}
+		\caption{p = 3}
+		\label{fig:side:c}
+	\end{minipage}
+	\begin{minipage}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[width=2.2in]{p4.png}
+		\caption{p = 4}
+		\label{fig:side:d}
+	\end{minipage}
+\end{figure}
+
+
+(c) We use the maximum-likelihood estimators $ \hat{\mu}_{ML} = \frac{1}{N}\sum_{i-1}^{N}x_i $ , $ \hat{\sigma}_{ML}^2 = \frac{1}{N-1}\sum_{i-1}^{N}(x_i - \hat{\mu}_{ML}) $ and log likelihood:\\
+\begin{align*}
+\ln L(\mu,\sigma^2|x) &= \ln\prod_{i=1}^{N}\frac{1}{\sqrt{2\sigma^2\pi}}e^{-\frac{(x_i-\mu)^2}{a\sigma^2}} \\
+&= \sum_{i=1}^{N}\ln \frac{1}{\sqrt{2\sigma^2\pi}} - \frac{(x_i-\mu)^2}{a\sigma^2} \\
+&= - \frac{N}{2}\ln\sqrt{2\sigma^2\pi} - \frac{1}{\sigma^2}\sum_{i=1}^{N}(x_i-\mu)^2 \\
+&= - \frac{N}{2}\ln\sqrt{2\pi} - \frac{N}{2}\ln(\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^{N}(x_i-\mu)^2 \\
+\end{align*}
+
+We can get the following table: \\
+
+\begin{tabular}{cccc}
+	\hline
+	p & mean & variance & log likelihood \\
+	\hline
+	1 & -0.0252059132133 & 12.1867453216 & -53382.2597848 \\
+	2 & -0.0286172500556 & 7.25667501613 & -48917.9880357 \\
+	3 & -0.0253305388166 & 8.89984472444 & -49875.4725993 \\
+	4 & -0.0607742813471 & 8.9622757887 & -50681.7579315\\
+	\hline
+\end{tabular}
+
+~~~\\
+p=2 seems better from the table above. Because it owns the lowest variance of errors. Also, its log-likelihood is slightly higher than others. This disagrees with the conclusion in part2 (a). Using this approach, the best satisfied assumprion is p = 2. 
+
+
+
+
+
+
+
+%\paragraph{Heading on level 4 (paragraph)}
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 2
+%----------------------------------------------------------------------------------------
+
+%\section{Lists}
+
+%------------------------------------------------
+
+%\subsection{Example of list (3*itemize)}
+%\begin{itemize}
+%	\item First item in a list 
+%		\begin{itemize}
+%		\item First item in a list 
+%			\begin{itemize}
+%			\item First item in a list 
+%			\item Second item in a list 
+%			\end{itemize}
+%		\item Second item in a list 
+%		\end{itemize}
+%	\item Second item in a list 
+%\end{itemize}
+
+%------------------------------------------------
+
+%\subsection{Example of list (enumerate)}
+%\begin{enumerate}
+%\item First item in a list 
+%\item Second item in a list 
+%\item Third item in a list
+%\end{enumerate}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
